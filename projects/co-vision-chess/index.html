@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-Vision Chess — Participatory Urban Futures | Yundu Chen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { void: '#050505', mist: '#F0F0F0', acid: '#CCFF00', glass: 'rgba(255, 255, 255, 0.03)', glassBorder: 'rgba(255, 255, 255, 0.1)' }, fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Syne', 'sans-serif'] } } } };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="../../assets/css/portfolio.css">
+</head>
+<body>
+    <div id="app" class="relative">
+        <div class="noise-overlay"></div>
+        <div ref="cursorDot" class="cursor-dot hidden md:block"></div>
+        <div ref="cursorOutline" class="cursor-outline hidden md:block"></div>
+        <nav v-show="currentProject && currentProject.id !== 'doggo-go'" class="fixed top-0 left-0 w-full px-6 py-8 flex justify-between items-center z-50 mix-blend-difference">
+            <div class="text-xl font-display font-bold tracking-tighter cursor-pointer" @click="scrollToTop" @mouseenter="cursorHover" @mouseleave="cursorLeave">{{ profile.nav.logo }}</div>
+            <ul class="flex space-x-8 text-[11px] uppercase tracking-widest font-medium">
+                <li v-for="item in profile.nav.links" :key="item.text" class="cursor-pointer hover:text-acid transition-colors duration-300" @click="handleNavClick(item.target)" @mouseenter="cursorHover" @mouseleave="cursorLeave">{{ item.text }}</li>
+            </ul>
+        </nav>
+        <div v-if="currentProject" class="min-h-screen">
+                <!-- Generic case-study header (skip for Doggo Go because it has a full-page custom layout) -->
+                <section v-if="currentProject.id !== 'doggo-go'" class="py-20 md:py-24 px-6 md:px-32 max-w-7xl mx-auto">
+                    <div class="mb-16">
+                        <span class="detail-label">Case Study</span>
+                        <h1 class="font-display text-2xl md:text-4xl font-black text-mist tracking-tighter leading-[1.1] mb-8 max-w-5xl uppercase">{{ currentProject.name }}</h1>
+                        <div class="flex flex-wrap items-center gap-x-12 gap-y-6 pt-6 border-t border-white/10">
+                            <div v-if="currentProject.details.role"><span class="detail-label opacity-40 mb-1">Role</span><p class="text-mist text-[11px] font-bold uppercase">{{ currentProject.details.role }}</p></div>
+                            <div v-if="currentProject.details.year"><span class="detail-label opacity-40 mb-1">Year</span><p class="text-mist text-[11px] font-bold">{{ currentProject.details.year }}</p></div>
+                            <div class="flex-grow"></div>
+                            <div class="flex gap-2"><span v-for="tag in currentProject.tags" :key="tag" class="pill-tag border border-acid/20 text-acid bg-acid/5">{{ tag }}</span></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12 items-start">
+                        <div v-if="currentProject.details.context"><span class="detail-label text-acid">Context</span><p class="text-gray-300 text-[15px] leading-relaxed italic border-l-2 border-acid/30 pl-6 whitespace-pre-line">{{ currentProject.details.context }}</p></div>
+                        <div v-if="currentProject.details.strategy"><span class="detail-label text-acid">Strategy / Approach</span><p class="text-gray-400 text-[14px] leading-loose whitespace-pre-line">{{ currentProject.details.strategy }}</p></div>
+                        <div v-else class="hidden md:block"></div>
+                        <div v-if="currentProject.details.opportunity || currentProject.details.objective"><span class="detail-label text-acid">{{ currentProject.details.opportunity ? 'Opportunity' : 'Objective' }}</span><p class="text-gray-300 text-[15px] leading-relaxed whitespace-pre-line">{{ currentProject.details.opportunity || currentProject.details.objective }}</p></div>
+                        <div v-if="currentProject.details.solution"><span class="detail-label text-acid">Solution</span><p class="text-gray-400 text-[14px] leading-loose whitespace-pre-line">{{ currentProject.details.solution }}</p></div>
+                        <div v-else class="hidden md:block"></div>
+                        <div v-if="currentProject.details.impact" class="md:col-span-2 bg-white/[0.02] p-8 md:p-12 rounded-2xl border border-glassBorder mt-4"><span class="detail-label">Outcome & Impact</span><p class="text-gray-200 text-[15px] leading-relaxed max-w-4xl whitespace-pre-line">{{ currentProject.details.impact }}</p></div>
+                    </div>
+                </section>
+
+
+                <div class="w-full bg-[#F7FEFF] text-black font-sans pb-24">
+                    <!-- 01 Problem Framing -->
+                    <section class="py-16 px-8 md:px-20 border-b border-black/10">
+                        <div class="cvc-swiss-grid items-start">
+                            <div class="col-span-1 cvc-vertical-text hidden md:block">
+                                <span class="text-4xl font-black opacity-20">01 — PROBLEM</span>
+                            </div>
+                            <div class="col-span-11 grid grid-cols-1 md:grid-cols-11 gap-8">
+                                <div class="col-span-11 md:col-span-5">
+                                    <h2 class="cvc-section-title mb-8">01 — Problem Framing: The “Silent” Majority</h2>
+                                    <div class="mb-12">
+                                        <span class="cvc-sub-title">Context</span>
+                                        <p class="text-lg leading-relaxed font-medium">China’s urbanisation rate has reached 64%, yet community planning remains largely driven by top-down decision-making structures. Despite policy efforts to encourage participation, residents often feel disconnected from shaping their local futures.</p>
+                                    </div>
+                                </div>
+                                <div class="col-span-11 md:col-span-6 relative">
+                                    <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1770713431/2_rd6kjn.png" alt="Context" class="w-full cvc-border-thin collage-img hard-shadow-sm">
+                                    <div class="absolute -bottom-4 -right-4 bg-[var(--cvc-yellow)] p-2 cvc-border-thin font-bold text-xs hidden md:block">URBANIZATION DATA VIZ</div>
+                                </div>
+                                <div class="col-span-11 mt-12">
+                                    <div class="cvc-hmw-card cvc-border-thin cvc-hard-shadow">
+                                        <div class="cvc-hmw-tag">Design Challenge</div>
+                                        <p class="text-4xl md:text-5xl font-black italic leading-tight uppercase">How might we enable meaningful participation in community futures?</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 02 Research & Discovery -->
+                    <section class="py-20 px-8 md:px-20 bg-white">
+                        <div class="cvc-swiss-grid mb-12">
+                            <div class="col-span-12 md:col-span-4">
+                                <h2 class="cvc-section-title mb-6">02 — Research & Discovery</h2>
+                            </div>
+                            <div class="col-span-12 md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-6 cvc-border-thin bg-white">
+                                    <span class="cvc-sub-title">Methods</span>
+                                    <ul class="font-bold space-y-2 text-sm uppercase">
+                                        <li>— Rapid exploratory interviews</li>
+                                        <li>— Stakeholder interviews</li>
+                                        <li>— Desk research</li>
+                                    </ul>
+                                </div>
+                                <div class="p-6 cvc-border-thin bg-[var(--cvc-primary)] text-white">
+                                    <span class="cvc-sub-title text-black">Observed Pain Points</span>
+                                    <div class="space-y-4 text-sm font-medium">
+                                        <p><strong>Cognitive Gap:</strong> Residents struggle to imagine future scenarios; discussions rely on abstract terminology.</p>
+                                        <p><strong>Social Pressure:</strong> Offline meetings are influenced by dominant voices or small groups.</p>
+                                        <p><strong>Participation Apathy:</strong> Residents feel their input does not lead to real change.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1770713431/1_rv9woo.png" class="w-full cvc-border-thin collage-img hard-shadow-sm grayscale hover:grayscale-0 transition-all duration-700">
+                            <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1770713431/3_o5wu6y.png" class="w-full cvc-border-thin collage-img hard-shadow-sm mt-12 md:mt-24 grayscale hover:grayscale-0 transition-all duration-700">
+                        </div>
+                    </section>
+
+                    <!-- 03 Key Insights -->
+                    <section class="cvc-swiss-grid bg-black text-white p-10 md:p-20 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 text-8xl font-black select-none">INSIGHTS</div>
+                        <div class="col-span-12 mb-10">
+                            <h2 class="cvc-section-title text-[var(--cvc-mint)]">03 — Key Insights</h2>
+                        </div>
+                        <div class="col-span-12 md:col-span-4 border-l-2 border-[var(--cvc-primary)] pl-6 mb-8 md:mb-0">
+                            <h3 class="text-xl font-black mb-2 uppercase">Imagination Needs Tangible Anchors</h3>
+                            <p class="text-sm text-gray-300 mb-4 font-medium">Abstract future discussions fail because residents lack concrete entry points.</p>
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--cvc-primary)]">Design implication: translate technology into everyday life scenarios.</p>
+                        </div>
+                        <div class="col-span-12 md:col-span-4 border-l-2 border-[var(--cvc-yellow)] pl-6 mb-8 md:mb-0">
+                            <h3 class="text-xl font-black mb-2 uppercase">Participation Requires Psychological Safety</h3>
+                            <p class="text-sm text-gray-300 mb-4 font-medium">Social dynamics reduce honest expression.</p>
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--cvc-yellow)]">Design implication: introduce anonymous and structured interaction.</p>
+                        </div>
+                        <div class="col-span-12 md:col-span-4 border-l-2 border-[var(--cvc-mint)] pl-6">
+                            <h3 class="text-xl font-black mb-2 uppercase">Engagement Emerges Through Playful Structures</h3>
+                            <p class="text-sm text-gray-300 mb-4 font-medium">Traditional meetings create pressure; playful formats reduce cognitive load.</p>
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--cvc-mint)]">Design implication: gamification as behavioural catalyst.</p>
+                        </div>
+                    </section>
+
+                    <!-- 04 Design Strategy -->
+                    <section class="py-20 px-8 md:px-20 border-b border-black/10">
+                        <div class="cvc-swiss-grid mb-12">
+                            <div class="col-span-12">
+                                <h2 class="cvc-section-title mb-8">04 — Design Strategy</h2>
+                            </div>
+                            <div class="col-span-12 md:col-span-5">
+                                <p class="font-bold text-lg mb-8 leading-relaxed">Rather than relying on traditional meeting formats, the project introduces gamification to reduce participation barriers and encourage collaborative engagement.</p>
+                            </div>
+                            <div class="col-span-12 md:col-span-7 flex flex-wrap gap-4 items-start">
+                                <div class="border-l-4 border-[var(--cvc-primary)] pl-4 max-w-xs mb-4">
+                                    <h4 class="font-black uppercase">AI-Driven Scenarios</h4>
+                                    <p class="text-xs font-bold">AI cards translate abstract technologies into relatable everyday scenarios.</p>
+                                </div>
+                                <div class="border-l-4 border-[var(--cvc-mint)] pl-4 max-w-xs mb-4">
+                                    <h4 class="font-black uppercase">Phygital Sync</h4>
+                                    <p class="text-xs font-bold">NFC-enabled pieces connect the physical game board with an online platform.</p>
+                                </div>
+                                <div class="border-l-4 border-[var(--cvc-yellow)] pl-4 max-w-xs mb-4">
+                                    <h4 class="font-black uppercase">Neutral Debate</h4>
+                                    <p class="text-xs font-bold">AI acts as a neutral third-party facilitator, analysing pros and cons.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1770715281/Group_7151_ctusgj.png" class="w-full h-auto collage-img">
+                    </section>
+
+                    <!-- 05 The Workflow -->
+                    <section class="py-20 px-8 md:px-20 border-b border-black/10">
+                        <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                            <h2 class="cvc-section-title">05 — The Workflow</h2>
+                            <p class="max-w-md font-bold text-right uppercase text-xs">Guiding users from personal reflection to collective decision-making.</p>
+                        </div>
+                        <div class="cvc-swiss-grid gap-0 cvc-border-thin bg-white hard-shadow-sm">
+                            <div class="col-span-12 md:col-span-3 p-6 border-b md:border-b-0 md:border-r border-black hover:bg-[var(--cvc-mint)] transition-colors">
+                                <span class="text-4xl font-black mb-4 block opacity-20">01</span>
+                                <h4 class="font-black mb-2 uppercase">Empathy</h4>
+                                <p class="text-xs font-bold">Participants start from personal lived experiences and everyday pain points.</p>
+                            </div>
+                            <div class="col-span-12 md:col-span-3 p-6 border-b md:border-b-0 md:border-r border-black hover:bg-[var(--cvc-yellow)] transition-colors">
+                                <span class="text-4xl font-black mb-4 block opacity-20">02</span>
+                                <h4 class="font-black mb-2 uppercase">Ideation</h4>
+                                <p class="text-xs font-bold">Policy cards and technology cards help translate individual needs into visions.</p>
+                            </div>
+                            <div class="col-span-12 md:col-span-3 p-6 border-b md:border-b-0 md:border-r border-black hover:bg-[var(--cvc-primary)] hover:text-white transition-colors">
+                                <span class="text-4xl font-black mb-4 block opacity-20">03</span>
+                                <h4 class="font-black mb-2 uppercase">Consensus</h4>
+                                <p class="text-xs font-bold">AI-assisted debating and anonymous voting filter noise and surface priorities.</p>
+                            </div>
+                            <div class="col-span-12 md:col-span-3 p-6 hover:bg-black hover:text-white transition-colors">
+                                <span class="text-4xl font-black mb-4 block opacity-20">04</span>
+                                <h4 class="font-black mb-2 uppercase">Output</h4>
+                                <p class="text-xs font-bold">The system generates structured community planning proposals based on input.</p>
+                            </div>
+                        </div>
+                        <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1770713432/4_bpwfac.png" class="w-full cvc-border-thin collage-img hard-shadow-sm mt-12">
+                    </section>
+
+                    <!-- 06 Iteration -->
+                    <section class="py-20 px-8 md:px-20 border-b border-black/10">
+                        <div class="cvc-swiss-grid mb-10">
+                            <div class="col-span-12 md:col-span-6">
+                                <h2 class="cvc-section-title mb-6">06 — Iteration: From Physical to Phygital</h2>
+                            </div>
+                            <div class="col-span-12 md:col-span-6 space-y-6">
+                                <div><span class="cvc-sub-title">Feedback Loop</span><p class="text-sm italic font-bold">Early workshops revealed concerns about group influence affecting voting outcomes.</p></div>
+                                <div><span class="cvc-sub-title" style="background-color: var(--cvc-mint);">The Pivot</span><p class="text-sm leading-relaxed font-bold">A mobile application module was introduced to enable remote participation and reduce social pressure. A data dashboard visualises community sentiment as a “public opinion heatmap.”</p></div>
+                            </div>
+                        </div>
+                        <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1770713435/5_iqgsdq.png" class="w-full cvc-border-thin hard-shadow collage-img">
+                    </section>
+
+                    <!-- 07 Final Outcome -->
+                    <section class="py-20 px-8 md:px-20">
+                        <h2 class="cvc-section-title mb-12 text-center">07 — Final Outcome & Impact</h2>
+                        <div class="space-y-8 mb-20">
+                            <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1770713433/6_cqzmvt.png" class="w-full cvc-border-thin shadow-2xl collage-img transition-all duration-1000">
+                            <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1770713436/Group_7142_g9eosf.png" class="w-full cvc-border-thin shadow-2xl collage-img transition-all duration-1000">
+                        </div>
+                        <div class="cvc-swiss-grid pb-20">
+                            <div class="col-span-12 md:col-span-8 bg-white cvc-border-thin p-10 cvc-hard-shadow">
+                                <h3 class="cvc-section-title text-3xl mb-8">The Offering Map</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div><h4 class="text-xl font-black border-b-4 border-[var(--cvc-mint)] inline-block mb-4 uppercase">For Residents</h4><ul class="space-y-2 font-bold text-sm uppercase"><li>• Low barrier to expression</li><li>• Immediate participation feedback</li><li>• Inclusive engagement experience</li></ul></div>
+                                    <div><h4 class="text-xl font-black border-b-4 border-[var(--cvc-yellow)] inline-block mb-4 uppercase">For Governance</h4><ul class="space-y-2 font-bold text-sm uppercase"><li>• Structured public opinion data</li><li>• Reduced governance friction</li><li>• Evidence-based community insights</li></ul></div>
+                                </div>
+                                <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1770713433/Group_7149_ueuaev.png" class="w-full mt-10 border-t pt-10 collage-img">
+                            </div>
+                            <div class="col-span-12 md:col-span-4 bg-[var(--cvc-primary)] p-10 cvc-border-thin flex flex-col justify-between">
+                                <div><h3 class="text-2xl font-black text-white mb-8 uppercase">Skills Demonstrated</h3><ul class="space-y-4 text-white font-black text-xl uppercase"><li class="flex items-center gap-2"><span class="w-4 h-4 bg-white rotate-45 block"></span> User Research</li><li class="flex items-center gap-2"><span class="w-4 h-4 bg-[var(--cvc-mint)] rotate-45 block"></span> Service Design</li><li class="flex items-center gap-2"><span class="w-4 h-4 bg-[var(--cvc-yellow)] rotate-45 block"></span> Rapid Prototyping</li><li class="flex items-center gap-2"><span class="w-4 h-4 bg-black rotate-45 block"></span> Stakeholder Management</li></ul></div>
+                                <div class="mt-20"><p class="text-xs font-bold uppercase tracking-widest opacity-60">Co-Vision Chess Project © 2024</p></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+
+
+            <section class="py-32 text-center bg-void">
+                <a href="../../index.html#projects" class="inline-block px-16 py-5 bg-acid text-void font-bold rounded-full hover:scale-105 transition-all duration-500 uppercase tracking-widest text-[10px]" @mouseenter="cursorHover" @mouseleave="cursorLeave">Return to Index</a>
+            </section>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../../assets/js/projects-data.js"></script>
+    <script src="../../assets/js/project-interactions.js"></script>
+    <script src="../../assets/js/shared-layout.js"></script>
+    <script>mountPortfolioProject('urban-futures');</script>
+</body>
+</html>

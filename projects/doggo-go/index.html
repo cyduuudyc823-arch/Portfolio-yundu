@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doggo Go — Community Care | Yundu Chen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { void: '#050505', mist: '#F0F0F0', acid: '#CCFF00', glass: 'rgba(255, 255, 255, 0.03)', glassBorder: 'rgba(255, 255, 255, 0.1)' }, fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Syne', 'sans-serif'] } } } };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="../../assets/css/portfolio.css">
+</head>
+<body>
+    <div id="app" class="relative">
+        <div class="noise-overlay"></div>
+        <div ref="cursorDot" class="cursor-dot hidden md:block"></div>
+        <div ref="cursorOutline" class="cursor-outline hidden md:block"></div>
+        <nav v-show="currentProject && currentProject.id !== 'doggo-go'" class="fixed top-0 left-0 w-full px-6 py-8 flex justify-between items-center z-50 mix-blend-difference">
+            <div class="text-xl font-display font-bold tracking-tighter cursor-pointer" @click="scrollToTop" @mouseenter="cursorHover" @mouseleave="cursorLeave">{{ profile.nav.logo }}</div>
+            <ul class="flex space-x-8 text-[11px] uppercase tracking-widest font-medium">
+                <li v-for="item in profile.nav.links" :key="item.text" class="cursor-pointer hover:text-acid transition-colors duration-300" @click="handleNavClick(item.target)" @mouseenter="cursorHover" @mouseleave="cursorLeave">{{ item.text }}</li>
+            </ul>
+        </nav>
+        <div v-if="currentProject" class="min-h-screen">
+
+                <div class="w-full">
+                    <a class="doggo-back-btn" @click="setView('home', '#projects')" @mouseenter="cursorHover" @mouseleave="cursorLeave">← 返回作品集</a>
+                    <div class="doggo-iframe-shell">
+                        <iframe id="doggo-iframe" src="../../doggo.html" title="Doggo Go — Community Care"></iframe>
+                    </div>
+                </div>
+
+
+
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../../assets/js/projects-data.js"></script>
+    <script src="../../assets/js/project-interactions.js"></script>
+    <script src="../../assets/js/shared-layout.js"></script>
+    <script>mountPortfolioProject('doggo-go');</script>
+</body>
+</html>
