@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doggo Go — Community Care Case Study</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #F8FAEC;
+            --accent-orange: #FD9243;
+            --accent-dark: #414141;
+            --accent-green: #50A459;
+            --accent-yellow: #F9E76C;
+            --accent-blue: #CAECF6;
+            --accent-purple: #8C70FF;
+            --border-width: 2px;
+            --shadow-size: 4px;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            font-family: 'Inter', sans-serif;
+            color: var(--accent-dark);
+            overflow-x: hidden;
+        }
+
+        .heading-brutal {
+            font-family: 'Unbounded', sans-serif;
+            font-weight: 900;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .card-brutal {
+            border: var(--border-width) solid var(--accent-dark);
+            box-shadow: var(--shadow-size) var(--shadow-size) 0px 0px var(--accent-dark);
+            border-radius: 0px;
+            transition: all 0.2s ease;
+            position: relative;
+            background-color: white;
+        }
+
+        .card-brutal:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 6px 6px 0px 0px var(--accent-dark);
+        }
+
+        /* Persona Horizontal Scroll Section */
+        .persona-analysis-section {
+            height: 400vh;
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .sticky-wrapper {
+            position: sticky;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .scrolling-track {
+            display: flex;
+            padding-left: 50px;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
+        }
+
+        .persona-card-full {
+            flex-shrink: 0;
+            width: 1000px; 
+            height: 65vh;  
+            background: white;
+            margin-right: 80px;
+            border: var(--border-width) solid var(--accent-dark);
+            box-shadow: var(--shadow-size) var(--shadow-size) 0px 0px var(--accent-dark);
+            display: grid;
+            grid-template-columns: 240px 1fr 1.2fr; 
+            padding: 2.5rem;
+            gap: 2.5rem;
+            position: relative;
+        }
+
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid var(--accent-dark);
+            padding-right: 1.5rem;
+        }
+
+        .avatar-box-refined {
+            width: 160px; 
+            height: 200px;
+            background: #e2e8f0;
+            border: var(--border-width) solid var(--accent-dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-box-refined img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .basic-info p {
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .content-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 1.5rem;
+        }
+
+        .module-block {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--accent-dark);
+        }
+
+        .module-block:last-child {
+            border-bottom: none;
+        }
+
+        .module-title-refined {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-bottom: 0.75rem;
+            color: var(--accent-dark);
+            text-transform: uppercase;
+        }
+
+        .module-text-refined {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--accent-dark);
+        }
+
+        .list-refined {
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .list-refined li {
+            margin-bottom: 6px;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .list-refined li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: 900;
+        }
+
+        /* Rotating Text */
+        .rotating-text {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            animation: rotate 25s linear infinite;
+            z-index: 40;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Image Stack */
+        .img-stack-container {
+            position: relative;
+            height: 380px;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .stacked-img {
+            position: absolute;
+            width: 240px;
+            height: auto;
+            border: var(--border-width) solid var(--accent-dark);
+            box-shadow: 3px 3px 0px 0px var(--accent-dark);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .stacked-img:nth-child(1) { top: 0; left: 0; transform: rotate(-4deg); z-index: 11; }
+        .stacked-img:nth-child(2) { top: 25px; left: 35px; transform: rotate(2deg); z-index: 12; }
+        .stacked-img:nth-child(3) { top: 50px; left: 70px; transform: rotate(-3deg); z-index: 13; }
+        .stacked-img:nth-child(4) { top: 75px; left: 105px; transform: rotate(4deg); z-index: 14; }
+        .stacked-img:nth-child(5) { top: 100px; left: 140px; transform: rotate(-2deg); z-index: 15; }
+
+        .stacked-img:hover {
+            z-index: 100 !important;
+            transform: scale(1.05) rotate(0deg) !important;
+        }
+
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            background: var(--accent-dark);
+            color: #fff;
+            padding: 12px 0;
+            border-top: var(--border-width) solid var(--accent-dark);
+            border-bottom: var(--border-width) solid var(--accent-dark);
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 40s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--accent-dark); 
+            border: 2px solid var(--bg-main);
+        }
+
+        /* Needs & Pain Points Styles */
+        .node-item {
+            font-size: 11px;
+            line-height: 1.2;
+            padding: 10px;
+            background-color: white;
+            z-index: 10;
+        }
+
+        .node-s { border-color: var(--accent-orange); background-color: #fffaf5; }
+        .node-o { border-color: var(--accent-purple); background-color: #f8f7ff; }
+        .node-m { border-color: var(--accent-dark); font-weight: 700; background-color: #ffffff; text-align: center; }
+
+        #mapping-svg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Magnifier Styles - High Performance */
+        .magnifier-container {
+            position: relative;
+            cursor: crosshair;
+            overflow: hidden;
+        }
+
+        .magnifier-lens {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 66.66vw; /* 屏幕宽度的 2/3 */
+            height: 66.66vw;
+            border: 4px solid var(--accent-dark);
+            border-radius: 50%;
+            pointer-events: none;
+            visibility: hidden;
+            z-index: 50;
+            background-repeat: no-repeat;
+            background-color: white;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            will-change: transform; /* 告诉浏览器开启硬件加速 */
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    <!-- Header Section -->
+    <header class="max-w-7xl mx-auto mb-20 relative">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-8">
+            <div class="flex-1">
+                <h1 class="heading-brutal text-6xl md:text-8xl tracking-tighter text-[#414141]">DOGGO GO</h1>
+                <p class="text-2xl font-bold mt-6 text-[#414141]">Community Care Project</p>
+            </div>
+            <div class="flex-shrink-0">
+                <div class="bg-[#FD9243] p-8 card-brutal max-w-sm">
+                    <p class="font-bold uppercase italic text-[#414141] leading-tight text-xs">A trust-driven, low-barrier, non-purely-commercial mutual assistance platform connecting pet owners and service providers.</p>
+                </div>
+            </div>
+        </div>
+
+        <svg class="rotating-text top-[-60px] right-[-40px] hidden lg:block" viewBox="0 0 200 200">
+            <path id="circlePath" d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0" fill="transparent"/>
+            <text font-family="Unbounded" font-weight="900" font-size="12" fill="#414141">
+                <textPath href="#circlePath">COMMUNITY CARE • TRUST DRIVEN • DOGGO GO • </textPath>
+            </text>
+        </svg>
+    </header>
+
+    <main class="max-w-7xl mx-auto space-y-24">
+
+        <!-- 01 Context & Opportunity -->
+        <section>
+            <h2 class="heading-brutal text-4xl mb-10 text-[#414141]">01 — Context & Opportunity</h2>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div class="md:col-span-4 bg-[#CAECF6] p-10 card-brutal">
+                    <h3 class="font-black text-2xl mb-4 text-[#414141]">Market Landscape</h3>
+                    <p class="text-[#414141] text-sm leading-relaxed">China’s pet industry is rapidly expanding. However, many pet owners face recurring “walking dilemmas” due to overtime work, business travel, or unpredictable schedules.</p>
+                </div>
+                <div class="md:col-span-5 bg-[#F9E76C] p-10 card-brutal">
+                    <h3 class="font-black text-2xl mb-4 text-[#414141]">Core Insight</h3>
+                    <p class="mb-6 text-[#414141] text-sm leading-relaxed">Marketplace data indicates strong unmet demand. Since June, over 105,000 posts offering dog-walking services and 27,000 posts seeking walkers have been published.</p>
+                    <div class="bg-white border-[2px] border-[#414141] p-4 font-black text-center text-[#414141]">
+                        DAILY DEMAND > 5,000 LISTINGS
+                    </div>
+                </div>
+                <div class="md:col-span-3 bg-[#FD9243] p-10 card-brutal">
+                    <h3 class="font-black text-2xl mb-4 text-[#414141]">Positioning</h3>
+                    <p class="text-[#414141] text-sm leading-relaxed">A trust-driven, low-barrier, non-purely-commercial mutual assistance platform.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 Competitor Analysis -->
+        <section>
+            <h2 class="heading-brutal text-4xl mb-10 text-[#414141]">02 — Competitor Analysis</h2>
+            <div class="card-brutal overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-[#414141] text-white">
+                                <th class="p-6 border-r border-gray-500 heading-brutal text-sm tracking-wide">Platform</th>
+                                <th class="p-6 border-r border-gray-500 heading-brutal text-sm tracking-wide">Core Strength</th>
+                                <th class="p-6 heading-brutal text-sm tracking-wide">Gap</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm font-medium text-[#414141]">
+                            <tr class="border-b-[2px] border-[#414141]">
+                                <td class="p-6 border-r-[2px] border-[#414141] bg-[#CAECF6] font-black">Rover</td>
+                                <td class="p-6 border-r-[2px] border-[#414141]">Mature review system; pet insurance included</td>
+                                <td class="p-6">High background check fee ($35); high entry barrier</td>
+                            </tr>
+                            <tr class="border-b-[2px] border-[#414141]">
+                                <td class="p-6 border-r-[2px] border-[#414141] bg-[#F9E76C] font-black">PetPie</td>
+                                <td class="p-6 border-r-[2px] border-[#414141]">Clean interface; professional standards</td>
+                                <td class="p-6">Long review process; opaque specialist allocation</td>
+                            </tr>
+                            <tr>
+                                <td class="p-6 border-r-[2px] border-[#414141] bg-[#50A459] text-white font-black">PetHelper</td>
+                                <td class="p-6 border-r-[2px] border-[#414141]">Feature-rich; integrates idle trading</td>
+                                <td class="p-6 text-[#414141]">Weak guarantee system; complex interface</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-6 bg-[#8C70FF] text-white border-t-[2px] border-[#414141] font-black italic text-center text-sm uppercase">
+                    Opportunity: Build a lightweight but trust-intensive platform with transparent onboarding and simplified interaction.
+                </div>
+            </div>
+        </section>
+
+        <!-- 03 User Research & Insights -->
+        <section class="relative">
+            <h2 class="heading-brutal text-4xl mb-10 text-[#414141]">03 — User Research & Insights</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="space-y-6">
+                    <div class="bg-white p-10 card-brutal text-[#414141]">
+                        <h3 class="font-black text-2xl mb-4 underline underline-offset-4 decoration-4 decoration-[#FD9243]">Research Methods</h3>
+                        <ul class="list-none space-y-3 font-bold">
+                            <li class="flex items-center gap-3"><span class="w-2 h-2 bg-[#414141]"></span> Online survey</li>
+                            <li class="flex items-center gap-3"><span class="w-2 h-2 bg-[#414141]"></span> In-depth interviews</li>
+                            <li class="flex items-center gap-3"><span class="w-2 h-2 bg-[#414141]"></span> Real-world experience testing</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-[#50A459] text-white p-10 card-brutal">
+                        <h3 class="font-black text-2xl mb-4 italic">Pain Points: Pet Owners</h3>
+                        <p class="mb-6 text-sm opacity-90 leading-relaxed">Concerned about professionalism, property safety, and unexpected accidents.</p>
+                        <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771674563/Frame_5_vud2eg.png" alt="Interview Record" class="w-full border-[2px] border-[#414141] bg-white p-1">
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-start items-start p-10 bg-[#CAECF6] card-brutal overflow-hidden">
+                    <h3 class="font-black text-2xl mb-2 text-[#414141]">ETHNOGRAPHY</h3>
+                    <p class="text-xs font-bold mb-8 text-[#414141] leading-relaxed opacity-80">We conducted ethnographic research by going through the existing dog-walking booking process ourselves to identify pain points.</p>
+                    <div class="img-stack-container">
+                        <img class="stacked-img" src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771674570/1e062ed54f05e847c0aae6f861576795_1_ta4juj.png" alt="Step 1">
+                        <img class="stacked-img" src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771674576/IMG_2468_psrthe.jpg" alt="Step 2">
+                        <img class="stacked-img" src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771674575/IMG_2467_vgz7sn.jpg" alt="Step 3">
+                        <img class="stacked-img" src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771674574/IMG_2464_ybilqb.jpg" alt="Step 4">
+                        <img class="stacked-img" src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771674573/IMG_2463_pq2apt.jpg" alt="Step 5">
+                    </div>
+                    <p class="mt-8 font-black text-[10px] uppercase tracking-widest text-[#414141]">Hover cards to flip through →</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card-brutal p-8 bg-white border-b-8 border-b-[#FD9243]">
+                    <span class="bg-[#414141] text-white px-2 py-0.5 text-[10px] font-black mb-4 inline-block">01 SAFETY</span>
+                    <h4 class="font-black mb-3 text-[#414141]">High Trust Threshold</h4>
+                    <p class="text-xs opacity-80 leading-relaxed text-[#414141]">Mandatory real-name & student identity authentication to reduce “stranger anxiety.”</p>
+                </div>
+                <div class="card-brutal p-8 bg-white border-b-8 border-b-[#8C70FF]">
+                    <span class="bg-[#414141] text-white px-2 py-0.5 text-[10px] font-black mb-4 inline-block">02 PROFESSIONAL</span>
+                    <h4 class="font-black mb-3 text-[#414141]">Not a Low-Skill Task</h4>
+                    <p class="text-xs opacity-80 leading-relaxed text-[#414141]">Structured video-based training + qualification assessment to standardise service.</p>
+                </div>
+                <div class="card-brutal p-8 bg-white border-b-8 border-b-[#50A459]">
+                    <span class="bg-[#414141] text-white px-2 py-0.5 text-[10px] font-black mb-4 inline-block">03 SOCIAL PROOF</span>
+                    <h4 class="font-black mb-3 text-[#414141]">Reputation > Authority</h4>
+                    <p class="text-xs opacity-80 leading-relaxed text-[#414141]">Authentic transaction reviews drive decision-making more effectively.</p>
+                </div>
+                <div class="card-brutal p-8 bg-white border-b-8 border-b-[#F9E76C]">
+                    <span class="bg-[#414141] text-white px-2 py-0.5 text-[10px] font-black mb-4 inline-block">04 EFFICIENCY</span>
+                    <h4 class="font-black mb-3 text-[#414141]">Effort vs Reward</h4>
+                    <p class="text-xs opacity-80 leading-relaxed text-[#414141]">Optimise matching through geographic proximity to reduce commuting time.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 text-[#414141]">
+                <div class="card-brutal bg-white p-6">
+                    <p class="font-black mb-4 text-sm underline decoration-2 decoration-[#8C70FF]">Persona Distribution Map: Service Provider</p>
+                    <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771675761/Frame_7_a05qhh.png" class="w-full border-[2px] border-[#414141]">
+                </div>
+                <div class="card-brutal bg-white p-6">
+                    <p class="font-black mb-4 text-sm underline decoration-2 decoration-[#FD9243]">Persona Distribution Map: Pet Owner</p>
+                    <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771675760/Frame_6_mhqkue.png" class="w-full border-[2px] border-[#414141]">
+                </div>
+            </div>
+        </section>
+
+        <!-- 04 Key Personas -->
+        <section id="persona-section">
+            <h2 class="heading-brutal text-4xl mb-10 text-[#414141]">04 — Key Personas</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <!-- Summary Cards -->
+                <div class="bg-[#CAECF6] card-brutal p-8">
+                    <div class="w-12 h-12 bg-[#414141] flex items-center justify-center text-white text-xl font-black mb-4">Z</div>
+                    <h3 class="font-black text-xl mb-1 text-[#414141]">Ms. Zhang, 45</h3>
+                    <p class="bg-[#414141] text-white inline-block px-2 py-0.5 mb-4 text-[10px] font-black uppercase">Busy Pet Owner</p>
+                    <ul class="text-[10px] space-y-2 font-bold opacity-80">
+                        <li>• Stable work schedule</li>
+                        <li>• Urgent needs occasionally</li>
+                        <li>• Values transparency</li>
+                    </ul>
+                </div>
+                <div class="bg-[#F9E76C] card-brutal p-8">
+                    <div class="w-12 h-12 bg-[#414141] flex items-center justify-center text-white text-xl font-black mb-4">W</div>
+                    <h3 class="font-black text-xl mb-1 text-[#414141]">Wu, 20</h3>
+                    <p class="bg-[#414141] text-white inline-block px-2 py-0.5 mb-4 text-[10px] font-black uppercase">Passionate Student</p>
+                    <ul class="text-[10px] space-y-2 font-bold opacity-80">
+                        <li>• Loves animals / Flexible</li>
+                        <li>• Motivated by social</li>
+                        <li>• Dislikes complexity</li>
+                    </ul>
+                </div>
+                <div class="bg-[#414141] text-white card-brutal p-8">
+                    <div class="w-12 h-12 bg-red-500 flex items-center justify-center text-white text-xl font-black mb-4">!</div>
+                    <h3 class="font-black text-xl mb-1">High-Risk Users</h3>
+                    <p class="bg-red-500 text-white inline-block px-2 py-0.5 mb-4 text-[10px] font-black uppercase">Negative Persona</p>
+                    <p class="text-[10px] font-bold opacity-80">Malicious actors (animal abusers). Defines the red-line constraints.</p>
+                </div>
+            </div>
+
+            <!-- DETAILED PERSONA SCROLL -->
+            <div class="persona-analysis-section" id="persona-scroll">
+                <div class="sticky-wrapper">
+                    <div class="scrolling-track" id="persona-track">
+                        
+                        <!-- CARD 1: ZHANG WU -->
+                        <div class="persona-card-full" style="background-color: #CAECF6;">
+                            <div class="left-panel">
+                                <div class="avatar-box-refined">
+                                    <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771679313/IMG_2633_yb5fpt.jpg" alt="Zhang Wu">
+                                </div>
+                                <div class="basic-info">
+                                    <p>Name: Zhang Wu</p>
+                                    <p>Age: 45 / Chengdu</p>
+                                    <p>Job: Instructor</p>
+                                    <p>Pet: Samoyed</p>
+                                </div>
+                            </div>
+                            <div class="content-column">
+                                <div class="module-block">
+                                    <h4 class="module-title-refined">Scenario</h4>
+                                    <p class="module-text-refined">Ms. Zhang plans to dine with friends. Her dog is home alone. She needs a reliable person to walk her dog and return it safely so her pet is cared for while she's away.</p>
+                                </div>
+                                <div class="module-block">
+                                    <h4 class="module-title-refined">Expectations</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold">
+                                        <li>Short-term home care or walking.</li>
+                                        <li>Certified/vetted providers.</li>
+                                        <li>Detailed service guarantees.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="content-column">
+                                <div class="module-block">
+                                    <h4 class="module-title-refined">Pain Points</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold">
+                                        <li>Trust established with strangers.</li>
+                                        <li>Fear of accidents/illness.</li>
+                                        <li>Property/Home security.</li>
+                                    </ul>
+                                </div>
+                                <div class="module-block">
+                                    <h4 class="module-title-refined">Solutions</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold">
+                                        <li>Platform-borne Insurance.</li>
+                                        <li>Verified health/vaccination certs.</li>
+                                        <li>Simplified Training + Assessment.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARD 2: WU YIYI -->
+                        <div class="persona-card-full" style="background-color: #F9E76C;">
+                            <div class="left-panel">
+                                <div class="avatar-box-refined">
+                                    <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771679312/IMG_2629_ia63xr.jpg" alt="Wu Yiyi">
+                                </div>
+                                <div class="basic-info">
+                                    <p>Name: Wu Yiyi</p>
+                                    <p>Age: 20 / Nanjing</p>
+                                    <p>Job: Undergraduate</p>
+                                    <p>Pet: Cat/Dog Lover</p>
+                                </div>
+                            </div>
+                            <div class="content-column">
+                                <div class="module-block">
+                                    <h4 class="module-title-refined">Scenario</h4>
+                                    <p class="module-text-refined">An outgoing student who loves pets. On weekends, she wants to help others walk dogs to relax. Finds existing platforms too "business-like".</p>
+                                </div>
+                                <div class="module-block">
+                                    <h4 class="module-title-refined">Expectations</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold">
+                                        <li>Connect with other pet lovers.</li>
+                                        <li>Purely enjoy dog interaction.</li>
+                                        <li>A way to relax on weekends.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="content-column">
+                                <div class="module-block">
+                                    <h4 class="module-title-refined">Pain Points</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold">
+                                        <li>Handling different breeds.</li>
+                                        <li>Registration is too complex.</li>
+                                        <li>Owners' lack of trust in youth.</li>
+                                    </ul>
+                                </div>
+                                <div class="module-block">
+                                    <h4 class="module-title-refined">Solutions</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold">
+                                        <li>Tiered pricing based on exp.</li>
+                                        <li>Video training boost.</li>
+                                        <li>Non-commercial app design.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARD 3: YANG CHI (NEGATIVE) -->
+                        <div class="persona-card-full" style="background-color: #414141; color: white;">
+                            <div class="left-panel">
+                                <div class="avatar-box-refined" style="border-color: #ef4444;">
+                                    <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771679313/IMG_2634_ctdgol.jpg" alt="Yang Chi">
+                                </div>
+                                <div class="basic-info" style="color: white;">
+                                    <p>Name: Yang Chi</p>
+                                    <p>Age: 26 / Wuxi</p>
+                                    <p>Job: Driver</p>
+                                    <p>Risk: High</p>
+                                </div>
+                            </div>
+                            <div class="content-column">
+                                <div class="module-block" style="border-bottom-color: #ef4444;">
+                                    <h4 class="module-title-refined" style="color: #ef4444;">Scenario</h4>
+                                    <p class="module-text-refined" style="color: white;">Seeks "easy" profit without effort. Acts perfunctorily and might commit acts that jeopardize the owner's property security during home visits.</p>
+                                </div>
+                                <div class="module-block">
+                                    <h4 class="module-title-refined" style="color: #ef4444;">Behavior</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold" style="color: white;">
+                                        <li>Accepts orders but perfunctory.</li>
+                                        <li>Harmful to property security.</li>
+                                        <li>Low empathy for pets.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="content-column">
+                                <div class="module-block" style="border-bottom-color: #ef4444;">
+                                    <h4 class="module-title-refined" style="color: #ef4444;">Risk Analysis</h4>
+                                    <p class="module-text-refined" style="color: white;">High risk of service failure and potential criminal behavior (theft).</p>
+                                </div>
+                                <div class="module-block">
+                                    <h4 class="module-title-refined" style="color: #ef4444;">Solutions</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold" style="color: white;">
+                                        <li>GPS Route Tracking.</li>
+                                        <li>Mandatory Video Check-ins.</li>
+                                        <li>Real-name Traceability.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARD 4: HE JINSHAN (NEGATIVE) -->
+                        <div class="persona-card-full" style="background-color: #414141; color: white;">
+                            <div class="left-panel">
+                                <div class="avatar-box-refined" style="border-color: #ef4444;">
+                                    <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1771679315/IMG_2635_za2by3.jpg" alt="He Jinshan">
+                                </div>
+                                <div class="basic-info" style="color: white;">
+                                    <p>Name: He Jinshan</p>
+                                    <p>Age: 30 / Nantong</p>
+                                    <p>Job: Pet Dealer</p>
+                                    <p>Risk: Extreme</p>
+                                </div>
+                            </div>
+                            <div class="content-column">
+                                <div class="module-block" style="border-bottom-color: #ef4444;">
+                                    <h4 class="module-title-refined" style="color: #ef4444;">Scenario</h4>
+                                    <p class="module-text-refined" style="color: white;">Pretends to love dogs to gain trust, then sells them illegally or abuses them for social media "clout," causing extreme brand damage.</p>
+                                </div>
+                                <div class="module-block">
+                                    <h4 class="module-title-refined" style="color: #ef4444;">Behavior</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold" style="color: white;">
+                                        <li>Illegal pet trading.</li>
+                                        <li>Animal abuse for traffic.</li>
+                                        <li>Venting frustration on pets.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="content-column">
+                                <div class="module-block" style="border-bottom-color: #ef4444;">
+                                    <h4 class="module-title-refined" style="color: #ef4444;">Risk Analysis</h4>
+                                    <p class="module-text-refined" style="color: white;">Extreme safety risk to pets and platform reputation.</p>
+                                </div>
+                                <div class="module-block">
+                                    <h4 class="module-title-refined" style="color: #ef4444;">Solutions</h4>
+                                    <ul class="list-refined text-[0.8rem] font-bold" style="color: white;">
+                                        <li>Community Blacklist System.</li>
+                                        <li>Strict Video Evidence Reporting.</li>
+                                        <li>Real-name Legal Tracking.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05 Solutions & Features (Optimized & Compact) -->
+        <section class="pb-32">
+            <h2 class="heading-brutal text-4xl mb-10 text-[#414141]">05 — Solutions & Features</h2>
+            
+            <!-- Compact Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+                <div class="card-brutal p-6 bg-[#8C70FF] text-white flex flex-col justify-between">
+                    <div>
+                        <h3 class="heading-brutal text-xl mb-4">Trust Hierarchy</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-white/10 border border-white/20">
+                                <h4 class="font-black text-sm mb-1">Real-name & Student ID</h4>
+                                <p class="text-[10px] opacity-90 leading-tight">Strong identity endorsement to reduce security anxiety.</p>
+                            </div>
+                            <div class="p-3 bg-white/10 border border-white/20">
+                                <h4 class="font-black text-sm mb-1">Streamlined Training</h4>
+                                <p class="text-[10px] opacity-90 leading-tight">Structured modules followed by quick assessment.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-brutal p-6 bg-white border-l-8 border-l-[#50A459] flex flex-col justify-between">
+                    <div>
+                        <h3 class="heading-brutal text-xl mb-4 text-[#50A459]">Safety First</h3>
+                        <div class="space-y-4 font-bold text-[#414141]">
+                            <div class="flex items-start gap-3">
+                                <span class="bg-[#50A459] text-white w-5 h-5 flex-shrink-0 flex items-center justify-center text-[10px] font-black">✓</span>
+                                <p class="text-[11px] leading-tight">Process Transparency: Mandatory photo/text updates.</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="bg-[#50A459] text-white w-5 h-5 flex-shrink-0 flex items-center justify-center text-[10px] font-black">✓</span>
+                                <p class="text-[11px] leading-tight">Insurance Coverage: Commercial insurance for incidents.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-brutal p-6 bg-[#FD9243] flex flex-col justify-between text-[#414141]">
+                    <div>
+                        <h3 class="heading-brutal text-xl mb-4">Community Experience</h3>
+                        <p class="text-sm font-black italic mb-2">De-commercialised</p>
+                        <p class="text-[11px] leading-tight font-bold">Build a hobby-based community space where pet owners and service providers build familiarity before engagement.</p>
+                    </div>
+                    <div class="mt-6 border border-[#414141] p-2 text-center">
+                        <p class="font-black uppercase tracking-widest text-[9px]">Doggo Go — Platform 2024</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Needs & Pain Points Mapping Section -->
+            <div id="mapping-container" class="relative bg-white card-brutal p-10 overflow-visible min-w-[900px] lg:min-w-full">
+                <!-- SVG 连接线层 -->
+                <svg id="mapping-svg-container"></svg>
+
+                <div class="flex justify-center mb-16 relative z-10">
+                    <div class="bg-[#414141] text-white px-8 py-2 heading-brutal text-sm shadow-md">
+                        Needs & Pain Points Analysis
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-12 gap-8 relative z-10">
+                    <!-- 左侧：服务提供者 -->
+                    <div class="col-span-3 space-y-3" id="provider-nodes">
+                        <div class="flex justify-end mb-4">
+                            <span class="bg-[#FD9243] text-white font-black px-4 py-1 text-[10px] uppercase tracking-tighter card-brutal shadow-none">
+                                Service Providers
+                            </span>
+                        </div>
+                        <!-- Nodes will be injected here -->
+                    </div>
+
+                    <!-- 中间：平台解决方案 -->
+                    <div class="col-span-6 px-12 space-y-3 pt-12" id="solution-nodes">
+                        <!-- Nodes will be injected here -->
+                    </div>
+
+                    <!-- 右侧：狗主人 -->
+                    <div class="col-span-3 space-y-3" id="owner-nodes">
+                        <div class="flex justify-start mb-4">
+                            <span class="bg-[#8C70FF] text-white font-black px-4 py-1 text-[10px] uppercase tracking-tighter card-brutal shadow-none">
+                                Dog Owners
+                            </span>
+                        </div>
+                        <!-- Nodes will be injected here -->
+                    </div>
+                </div>
+
+                <div class="mt-16 pt-6 border-t border-gray-100 text-center text-gray-400 text-[10px] tracking-[0.4em] uppercase font-bold">
+                    Relationship Insight Mapping System
+                </div>
+            </div>
+        </section>
+
+        <!-- 06 — Visual Showcase (Full-width, Borderless) -->
+        <section class="visual-showcase -mx-6 md:-mx-12 overflow-hidden">
+            <h2 class="heading-brutal text-4xl mb-10 px-6 md:px-12 text-[#414141]">06 — Visual Design & Showcase</h2>
+            <div class="flex flex-col">
+                <!-- Image 1 -->
+                <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1773831517/MacBook_Pro_16__-_18_hio3vk.png" alt="Showcase 1" class="w-full h-auto block">
+                <!-- Image 2 (Magnifiable) -->
+                <div class="magnifier-container w-full" id="magnify-area">
+                    <div class="magnifier-lens" id="lens"></div>
+                    <img id="target-img" src="https://res.cloudinary.com/dhonki8qe/image/upload/v1773831519/MacBook_Pro_16__-_19_hmzdzj.png" alt="Showcase 2" class="w-full h-auto block">
+                </div>
+                <!-- Image 3 -->
+                <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1773832368/MacBook_Pro_16__-_20_ikfsic.png" alt="Showcase 3" class="w-full h-auto block">
+                <!-- Video 1 -->
+                <video autoplay loop muted playsinline class="w-full h-auto block">
+                    <source src="https://res.cloudinary.com/dhonki8qe/video/upload/v1773831518/MacBook_Pro_16__-_21_gnmyhi.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <!-- Image 4 -->
+                <img src="https://res.cloudinary.com/dhonki8qe/image/upload/v1773831519/MacBook_Pro_16__-_22_pw9es0.png" alt="Showcase 4" class="w-full h-auto block">
+                <!-- Video 2 -->
+                <video autoplay loop muted playsinline class="w-full h-auto block">
+                    <source src="https://res.cloudinary.com/dhonki8qe/video/upload/v1773831517/MacBook_Pro_16__-_23_ephr7h.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="marquee mt-12 -mx-6 md:-mx-12">
+        <div class="marquee-content">
+            <span class="mx-6 heading-brutal text-sm">TRUST DRIVEN • COMMUNITY CARE • DOGGO GO • </span>
+            <span class="mx-6 heading-brutal text-sm">TRUST DRIVEN • COMMUNITY CARE • DOGGO GO • </span>
+            <span class="mx-6 heading-brutal text-sm">TRUST DRIVEN • COMMUNITY CARE • DOGGO GO • </span>
+            <span class="mx-6 heading-brutal text-sm">TRUST DRIVEN • COMMUNITY CARE • DOGGO GO • </span>
+        </div>
+    </footer>
+
+    <script>
+        // Data & Connections
+        const mappingData = {
+            serviceProviders: [
+                { id: 's1', text: "Worried about unvaccinated pets or viruses infecting own pets/loss of service." },
+                { id: 's2', text: "Want to encounter high-quality pets and favorite breeds." },
+                { id: 's3', text: "Difficult to find local social circles; platform is too commercial." },
+                { id: 's4', text: "Hope to meet pets of specific breeds." },
+                { id: 's5', text: "Need to learn general pet care and handling knowledge." },
+                { id: 's6', text: "Concerned about personal qualifications; lack of breed knowledge may lead to accidents." },
+                { id: 's7', text: "Prefer orders closer to home." },
+                { id: 's8', text: "Lack of trust in dog owners." },
+                { id: 's9', text: "Owner quality concerns; difficult owners make service stressful." },
+                { id: 's10', text: "Small market demand, few pets, unstable orders, many distant orders." },
+                { id: 's11', text: "Desire for trial sessions or physical contact before booking." },
+                { id: 's12', text: "Slow/complex platform review process; high entry barrier." },
+                { id: 's13', text: "Pets may be aggressive, posing a threat to personal safety." }
+            ],
+            solutions: [
+                { id: 'm1', text: "Direct owner records/health certs; sitter communication confirmation." },
+                { id: 'm2', text: "Establish community features (linked to functions) [On/Off toggle]." },
+                { id: 'm3', text: "Platform provides online training and exams." },
+                { id: 'm4', text: "Evaluation mechanism; mutual transparency; pre-meeting communication." },
+                { id: 'm5', text: "Regular status reporting with text and photo support." },
+                { id: 'm6', text: "Multi-level qualifications (3 tiers); varying standards." },
+                { id: 'm7', text: "Professional assessment program; randomized large question bank." },
+                { id: 'm8', text: "Optional full-process recording/monitoring." },
+                { id: 'm9', text: "Insurance (Injuries to people/dogs) [Paid by dog owner]." },
+                { id: 'm10', text: "Real-name verification & Student verification." },
+                { id: 'm11', text: "User reporting and blacklist mechanism." },
+                { id: 'm12', text: "Advice for owners to install surveillance & alarms." }
+            ],
+            owners: [
+                { id: 'o1', text: "Need more channels to evaluate sitters for better familiarity." },
+                { id: 'o2', text: "Want to find professionals with specific qualifications." },
+                { id: 'o3', text: "Risk of fake sitters on social platforms; potential pet abuse/kidnap." },
+                { id: 'o4', text: "Sitters neglecting pets; platform trust issues if only compensation is offered." },
+                { id: 'o5', text: "Concerns about sitter character or professionalism." },
+                { id: 'o6', text: "Orders accepted but needs not met; irresponsible behavior." },
+                { id: 'o7', text: "Concerns about dog running away, refusing leash, or biting." },
+                { id: 'o8', text: "Fear of accidents, such as pet injury or death." },
+                { id: 'o9', text: "Like to document the process and share on social media." },
+                { id: 'o10', text: "Concerns about personal and property safety." }
+            ],
+            connections: [
+                { from: 's1', to: 'm1' }, { from: 's2', to: 'm2' }, { from: 's3', to: 'm2' },
+                { from: 's4', to: 'm2' }, { from: 's5', to: 'm3' }, { from: 's6', to: 'm3' },
+                { from: 's8', to: 'm4' }, { from: 's9', to: 'm4' }, { from: 's8', to: 'm11' },
+                { from: 's7', to: 'm5' }, { from: 's12', to: 'm6' }, { from: 's12', to: 'm7' },
+                { from: 's12', to: 'm10' }, { from: 's11', to: 'm8' }, { from: 's13', to: 'm9' },
+                { from: 's13', to: 'm12' }, { from: 'o1', to: 'm4' }, { from: 'o2', to: 'm6' },
+                { from: 'o3', to: 'm10' }, { from: 'o3', to: 'm4' }, { from: 'o4', to: 'm4' },
+                { from: 'o4', to: 'm11' }, { from: 'o5', to: 'm4' }, { from: 'o5', to: 'm6' },
+                { from: 'o5', to: 'm7' }, { from: 'o6', to: 'm11' }, { from: 'o7', to: 'm9' },
+                { from: 'o8', to: 'm9' }, { from: 'o9', to: 'm5' }, { from: 'o10', to: 'm12' },
+                { from: 'o10', to: 'm10' }
+            ]
+        };
+
+        function renderMapping() {
+            const pCont = document.getElementById('provider-nodes');
+            const mCont = document.getElementById('solution-nodes');
+            const oCont = document.getElementById('owner-nodes');
+
+            mappingData.serviceProviders.forEach(item => {
+                const div = document.createElement('div');
+                div.id = item.id;
+                div.className = "node-item card-brutal node-s text-right";
+                div.innerText = item.text;
+                pCont.appendChild(div);
+            });
+
+            mappingData.solutions.forEach(item => {
+                const div = document.createElement('div');
+                div.id = item.id;
+                div.className = "node-item card-brutal node-m";
+                div.innerText = item.text;
+                mCont.appendChild(div);
+            });
+
+            mappingData.owners.forEach(item => {
+                const div = document.createElement('div');
+                div.id = item.id;
+                div.className = "node-item card-brutal node-o text-left";
+                div.innerText = item.text;
+                oCont.appendChild(div);
+            });
+
+            setTimeout(drawLines, 500);
+        }
+
+        function drawLines() {
+            const svg = document.getElementById('mapping-svg-container');
+            if (!svg) return;
+            const container = document.getElementById('mapping-container').getBoundingClientRect();
+            svg.innerHTML = ''; // Clear existing
+
+            mappingData.connections.forEach(conn => {
+                const fromEl = document.getElementById(conn.from);
+                const toEl = document.getElementById(conn.to);
+                if (!fromEl || !toEl) return;
+
+                const fromRect = fromEl.getBoundingClientRect();
+                const toRect = toEl.getBoundingClientRect();
+
+                const isFromLeft = conn.from.startsWith('s');
+                let startX, startY, endX, endY;
+
+                if (isFromLeft) {
+                    startX = fromRect.right - container.left;
+                    startY = fromRect.top + fromRect.height / 2 - container.top;
+                    endX = toRect.left - container.left;
+                    endY = toRect.top + toRect.height / 2 - container.top;
+                } else {
+                    startX = fromRect.left - container.left;
+                    startY = fromRect.top + fromRect.height / 2 - container.top;
+                    endX = toRect.right - container.left;
+                    endY = toRect.top + toRect.height / 2 - container.top;
+                }
+
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                const offset = Math.abs(endX - startX) * 0.45;
+                const cp1x = startX + (isFromLeft ? offset : -offset);
+                const cp2x = endX + (isFromLeft ? -offset : offset);
+                
+                const d = `M ${startX} ${startY} C ${cp1x} ${startY}, ${cp2x} ${endY}, ${endX} ${endY}`;
+                
+                path.setAttribute("d", d);
+                path.setAttribute("fill", "none");
+                path.setAttribute("stroke", isFromLeft ? "#FD9243" : "#8C70FF");
+                path.setAttribute("stroke-width", "1.5");
+                path.setAttribute("stroke-dasharray", "4 3");
+                path.setAttribute("class", "opacity-40");
+                svg.appendChild(path);
+            });
+        }
+
+        // Persona Scroll Logic
+        const track = document.getElementById('persona-track');
+        const scrollSection = document.getElementById('persona-scroll');
+        
+        window.addEventListener('scroll', () => {
+            if (!scrollSection || !track) return;
+            const sectionTop = scrollSection.offsetTop;
+            const scrollDistance = window.pageYOffset - sectionTop;
+            const totalScrollableHeight = scrollSection.offsetHeight - window.innerHeight;
+            
+            if (scrollDistance >= 0 && scrollDistance <= totalScrollableHeight) {
+                const progress = scrollDistance / totalScrollableHeight;
+                const trackWidth = track.scrollWidth;
+                const maxTranslate = trackWidth - window.innerWidth + 100;
+                track.style.transform = `translateX(-${progress * maxTranslate}px)`;
+            }
+        });
+
+        // Magnifier Logic - Optimized for smoothness and edge accuracy
+        const magnifyArea = document.getElementById('magnify-area');
+        const lens = document.getElementById('lens');
+        const img = document.getElementById('target-img');
+        const zoom = 2;
+
+        let frameRequested = false;
+
+        magnifyArea.addEventListener('mousemove', (e) => {
+            if (frameRequested) return;
+            frameRequested = true;
+
+            // 使用 requestAnimationFrame 优化渲染频率
+            requestAnimationFrame(() => {
+                lens.style.visibility = 'visible';
+                const rect = magnifyArea.getBoundingClientRect();
+                
+                // 坐标计算：获取鼠标相对于容器的精确坐标
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const lensRadius = lens.offsetWidth / 2;
+                
+                // 硬件加速位移：使用 translate3d 避开 top/left 的排版计算
+                // 我们将镜片的坐标中心对准鼠标 (x - radius, y - radius)
+                lens.style.transform = `translate3d(${x - lensRadius}px, ${y - lensRadius}px, 0)`;
+
+                // 背景图计算逻辑：
+                // 为了让鼠标指的地方刚好在镜片中心，背景偏移量应为 -(鼠标坐标 * 缩放倍率) + 镜片半径
+                lens.style.backgroundImage = `url('${img.src}')`;
+                lens.style.backgroundSize = `${img.width * zoom}px ${img.height * zoom}px`;
+                lens.style.backgroundPosition = `${-(x * zoom - lensRadius)}px ${-(y * zoom - lensRadius)}px`;
+                
+                frameRequested = false;
+            });
+        });
+
+        magnifyArea.addEventListener('mouseleave', () => {
+            lens.style.visibility = 'hidden';
+        });
+
+        window.onload = () => {
+            renderMapping();
+            window.addEventListener('resize', () => {
+                drawLines();
+            });
+        };
+    </script>
+
+</body>
+</html>
