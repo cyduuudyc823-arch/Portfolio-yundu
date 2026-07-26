@@ -1,5 +1,5 @@
 window.portfolioData = {
-            nav: { logo: 'YUNDU.', links: [{ text: 'About', target: 'about' }, { text: 'Works', target: 'projects' }, { text: 'Contact', target: 'contact' }] },
+            nav: { logo: 'YUNDU.', links: [{ text: 'About', target: 'about' }, { text: 'Works', target: 'projects' }, { text: 'Growth', target: 'growth' }, { text: 'Contact', target: 'contact' }] },
             hero: {
                 name: "Yundu Chen",
                 whoAmI: "I am a multidisciplinary designer bridging Strategic Service Design and Visual Creativity. I combine the logic of a strategist with the eye of an artist to create work that works.",

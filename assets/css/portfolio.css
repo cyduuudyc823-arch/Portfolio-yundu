@@ -96,6 +96,61 @@
         .project-preview-box img, .project-preview-box video { width: 100%; height: 100%; object-fit: cover; }
         .project-title-container { min-height: 3.5rem; margin-top: 1rem; margin-bottom: 0.5rem; }
 
+        /* Growth Cards */
+        .growth-card {
+            width: 100%;
+            display: block;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .growth-card-visual {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            background: #f5f5fa;
+            transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .growth-card-visual img {
+            position: absolute;
+            inset: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .growth-card:hover .growth-card-visual {
+            border-color: rgba(204, 255, 0, 0.45);
+            transform: translateY(-3px);
+        }
+        .growth-card:hover .growth-card-visual img { transform: scale(1.015); }
+        .growth-card-index {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 800;
+            line-height: 0.8;
+            color: rgba(240, 240, 240, 0.08);
+        }
+        .growth-card-status {
+            border: 1px solid rgba(204, 255, 0, 0.35);
+            padding: 0.35rem 0.7rem;
+            color: #CCFF00;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+        }
+        .growth-card-copy {
+            max-width: 34rem;
+            color: #777;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
         .category-header { font-weight: 900; letter-spacing: 0.4em; color: #CCFF00; }
         .vertical-arrow-guide {
             width: 1px; height: 50px;
