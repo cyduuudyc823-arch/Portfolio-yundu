@@ -14,7 +14,7 @@ window.portfolioData = {
                     name: "Readyology — Governing Human–AI Disagreement in Breast Screening",
                     category: "Service",
                     tags: ["Service Design", "Healthcare", "AI Governance"],
-                    cardImg: "https://qihangwu-portfolio.vercel.app/images/projects/irp/opt/irp-hero-background.webp",
+                    cardImg: "assets/readyology-cover.jpg",
                     details: {
                         role: "Service Design Researcher",
                         year: "2025",
