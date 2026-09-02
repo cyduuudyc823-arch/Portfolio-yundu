@@ -227,6 +227,8 @@
         }
         .project-drawer.is-open .drawer-panel { grid-template-rows: 1fr; }
         .drawer-panel-inner { overflow: hidden; min-height: 0; }
+        /* Skips the open/close animation while restoring a saved scroll/drawer state. */
+        .project-drawer.no-anim .drawer-panel { transition: none; }
 
         /* Default Gallery Slots - 去掉了强制长宽比，按照图片大小占满 */
         .visual-gallery { display: flex; flex-direction: column; width: 100%; margin: 0; padding: 0; }

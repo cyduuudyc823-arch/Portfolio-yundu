@@ -9,8 +9,24 @@ window.portfolioData = {
             partners: ["TESCO", "RED CROSS", "WWF"],
             contact: { email: "cydudyc.823@gmail.com" },
             projects: [
-                { 
-                    id: 'genz-future', detailsUrl: 'projects/genz4good/', 
+                {
+                    id: 'readyology', detailsUrl: 'projects/readyology/',
+                    name: "Readyology — Governing Human–AI Disagreement in Breast Screening",
+                    category: "Service",
+                    tags: ["Service Design", "Healthcare", "AI Governance"],
+                    cardImg: "https://qihangwu-portfolio.vercel.app/images/projects/irp/opt/irp-hero-background.webp",
+                    details: {
+                        role: "Service Design Researcher",
+                        year: "2025",
+                        context: "AI-assisted breast screening flags cases for a second reader, but as non-medical and non-AI experts, direct clinical field access was inaccessible — the project began from literature review, cross-national screening analysis, process mapping and expert interviews with an AI specialist and two radiologists.",
+                        opportunity: "Not \"how can we optimise AI accuracy?\" — but what happens when human judgement and AI recommendations disagree?",
+                        solution: "Readyology: a Reading, Arbitration and Learning workflow that structures how radiologists and AI reach a decision when they disagree, keeping human clinical judgement as the final authority.",
+                        impact: "Feedback surfaced a generic future model without a concrete implementation path — a reminder that without funding, infrastructure and organisational buy-in, elegant service design remains an ivory tower."
+                    },
+                    gallery: []
+                },
+                {
+                    id: 'genz-future', detailsUrl: 'projects/genz4good/',
                     name: "GenZ4Good — Designing Future Giving Models", 
                     category: "Service", 
                     tags: ["Service Design", "Strategy"], 

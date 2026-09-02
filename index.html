@@ -62,7 +62,7 @@
                     <h2 class="font-display text-4xl text-mist flex items-center mb-16"><span class="w-3 h-3 bg-acid rounded-full mr-4"></span>Works</h2>
 
                     <!-- Service Design Drawer -->
-                    <div class="project-drawer" :class="{ 'is-open': serviceOpen }">
+                    <div class="project-drawer" :class="{ 'is-open': serviceOpen, 'no-anim': noAnim }">
                         <button type="button"
                                 class="drawer-toggle"
                                 :aria-expanded="serviceOpen"
@@ -100,7 +100,7 @@
                     </div>
 
                     <!-- Visual Design Drawer -->
-                    <div class="project-drawer" :class="{ 'is-open': visualOpen }">
+                    <div class="project-drawer" :class="{ 'is-open': visualOpen, 'no-anim': noAnim }">
                         <button type="button"
                                 class="drawer-toggle"
                                 :aria-expanded="visualOpen"
@@ -144,7 +144,7 @@
                         <span class="w-3 h-3 bg-acid rounded-full mr-4"></span>Growth
                     </h2>
 
-                    <div class="project-drawer" :class="{ 'is-open': growthOpen }">
+                    <div class="project-drawer" :class="{ 'is-open': growthOpen, 'no-anim': noAnim }">
                         <button type="button"
                                 class="drawer-toggle"
                                 :aria-expanded="growthOpen"
