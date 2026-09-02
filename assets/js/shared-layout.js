@@ -21,8 +21,11 @@
       const focusedProject = ref(null);
       const serviceProjects = computed(() => profile.value.projects.filter((project) => project.category === 'Service'));
       const visualProjects = computed(() => profile.value.projects.filter((project) => project.category === 'Visual'));
-      const maxProjectRows = computed(() => Math.max(serviceProjects.value.length, visualProjects.value.length));
-      const getProjectByRow = (category, index) => (category === 'Service' ? serviceProjects.value : visualProjects.value)[index] || null;
+      const growthItems = computed(() => profile.value.growth || []);
+      // Works/Growth drawers: each category starts collapsed and toggles independently.
+      const serviceOpen = ref(false);
+      const visualOpen = ref(false);
+      const growthOpen = ref(false);
       const openProject = (project) => { window.location.href = project.detailsUrl; };
       const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
       const handleNavClick = (target) => {
@@ -35,7 +38,11 @@
         const hash = (window.location.hash || '').replace(/^#/, '');
         if (hash) nextTick(() => handleNavClick(hash));
       });
-      return { profile, cursorDot, cursorOutline, focusedProject, cursorHover, cursorLeave, maxProjectRows, getProjectByRow, openProject, scrollToTop, handleNavClick };
+      return {
+        profile, cursorDot, cursorOutline, focusedProject, cursorHover, cursorLeave,
+        serviceProjects, visualProjects, growthItems, serviceOpen, visualOpen, growthOpen,
+        openProject, scrollToTop, handleNavClick
+      };
     }
   }).mount('#app');
 

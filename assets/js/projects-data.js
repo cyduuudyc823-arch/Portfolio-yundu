@@ -109,7 +109,16 @@ window.portfolioData = {
                         "https://res.cloudinary.com/dhonki8qe/image/upload/v1773010016/MacBook_Pro_16__-_18_jallf5.png",
                         "https://res.cloudinary.com/dhonki8qe/image/upload/v1773010016/MacBook_Pro_16__-_17_o2zbrs.png",
                         "https://res.cloudinary.com/dhonki8qe/image/upload/v1773009907/MacBook_Pro_16__-_20_a13vfl.png"
-                    ] 
+                    ]
+                }
+            ],
+            growth: [
+                {
+                    id: 'service-design-reflection',
+                    detailsUrl: 'growth/service-design-reflection/',
+                    name: "Rethinking Service Design — From Idealism to Action",
+                    cardImg: "assets/growth-service-design-cover.jpg",
+                    summary: "A one-year reflection through Tesco, GenZ4Good and Readyology."
                 }
             ]
         };
