@@ -24,7 +24,11 @@
       const setLanguage = (nextLanguage) => {
         language.value = nextLanguage;
         i18n.saveLanguage(nextLanguage);
-        nextTick(() => i18n.translateStatic(nextLanguage));
+        nextTick(() => {
+          i18n.translateStatic(nextLanguage);
+          const doggoFrame = document.getElementById('doggo-iframe');
+          if (doggoFrame && doggoFrame.contentWindow) doggoFrame.contentWindow.location.reload();
+        });
       };
       const cursorDot = ref(null);
       const cursorOutline = ref(null);
@@ -105,7 +109,11 @@
       const setLanguage = (nextLanguage) => {
         language.value = nextLanguage;
         i18n.saveLanguage(nextLanguage);
-        nextTick(() => i18n.translateStatic(nextLanguage));
+        nextTick(() => {
+          i18n.translateStatic(nextLanguage);
+          const doggoFrame = document.getElementById('doggo-iframe');
+          if (doggoFrame && doggoFrame.contentWindow) doggoFrame.contentWindow.location.reload();
+        });
       };
       const cursorDot = ref(null);
       const cursorOutline = ref(null);

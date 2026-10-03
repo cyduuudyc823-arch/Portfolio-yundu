@@ -152,9 +152,10 @@
   function dictionaries() {
     const readyology = window.readyologyTranslations || { enToZh: {}, zhToEn: {} };
     const manual = window.readyologyManualTranslations || { enToZh: {}, zhToEn: {} };
+    const projects = window.projectTranslations || { enToZh: {}, zhToEn: {} };
     return {
-      enToZh: { ...staticEnToZh, ...readyology.enToZh, ...manual.enToZh },
-      zhToEn: { ...staticZhToEn, ...readyology.zhToEn, ...manual.zhToEn }
+      enToZh: { ...staticEnToZh, ...projects.enToZh, ...readyology.enToZh, ...manual.enToZh },
+      zhToEn: { ...staticZhToEn, ...projects.zhToEn, ...readyology.zhToEn, ...manual.zhToEn }
     };
   }
 
@@ -184,6 +185,14 @@
       const trailing = current.match(/\s*$/)[0];
       node.nodeValue = `${leading}${replacement}${trailing}`;
     }
+    root.querySelectorAll('[alt], [title], [aria-label]').forEach((element) => {
+      ['alt', 'title', 'aria-label'].forEach((attribute) => {
+        const current = element.getAttribute(attribute);
+        if (!current) return;
+        const translated = language === 'zh' ? maps.enToZh[current] : maps.zhToEn[current];
+        if (translated) element.setAttribute(attribute, translated);
+      });
+    });
     document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
   }
 
