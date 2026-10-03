@@ -22,9 +22,18 @@
         <div ref="cursorOutline" class="cursor-outline hidden md:block"></div>
         <nav v-show="currentProject && currentProject.id !== 'doggo-go'" class="fixed top-0 left-0 w-full px-6 py-8 flex justify-between items-center z-50 mix-blend-difference">
             <div class="text-xl font-display font-bold tracking-tighter cursor-pointer" @click="scrollToTop" @mouseenter="cursorHover" @mouseleave="cursorLeave">{{ profile.nav.logo }}</div>
-            <ul class="flex space-x-8 text-[11px] uppercase tracking-widest font-medium">
-                <li v-for="item in profile.nav.links" :key="item.text" class="cursor-pointer hover:text-acid transition-colors duration-300" @click="handleNavClick(item.target)" @mouseenter="cursorHover" @mouseleave="cursorLeave">{{ item.text }}</li>
-            </ul>
+            <div class="nav-actions">
+                <ul class="flex space-x-4 md:space-x-8 text-[11px] uppercase tracking-widest font-medium">
+                    <li v-for="item in profile.nav.links" :key="item.target" class="cursor-pointer hover:text-acid transition-colors duration-300" @click="handleNavClick(item.target)" @mouseenter="cursorHover" @mouseleave="cursorLeave">{{ item.text }}</li>
+                </ul>
+                <details class="language-menu">
+                    <summary>{{ language === 'en' ? 'English' : '中文' }}<span class="language-chevron"></span></summary>
+                    <div class="language-menu-panel">
+                        <button type="button" @click="setLanguage('en'); $event.currentTarget.closest('details').removeAttribute('open')"><span>English</span><span v-if="language === 'en'">✓</span></button>
+                        <button type="button" @click="setLanguage('zh'); $event.currentTarget.closest('details').removeAttribute('open')"><span>简体中文</span><span v-if="language === 'zh'">✓</span></button>
+                    </div>
+                </details>
+            </div>
         </nav>
         <div v-if="currentProject" class="min-h-screen">
                 <!-- Generic case-study header (skip for Doggo Go because it has a full-page custom layout) -->
@@ -240,6 +249,9 @@
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="../../assets/js/projects-data.js"></script>
+    <script src="../../assets/js/readyology-translations.js"></script>
+    <script src="../../assets/js/readyology-manual-translations.js"></script>
+    <script src="../../assets/js/i18n.js"></script>
     <script src="../../assets/js/project-interactions.js"></script>
     <script src="../../assets/js/shared-layout.js"></script>
     <script>mountPortfolioProject('urban-futures');</script>

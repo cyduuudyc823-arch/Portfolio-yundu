@@ -23,6 +23,13 @@
       <a href="#reflection">Reflection</a>
       <a href="#future">Future</a>
     </nav>
+    <details class="language-menu growth-language-menu" data-language-switch>
+      <summary><span data-language-current>English</span><span class="language-chevron"></span></summary>
+      <div class="language-menu-panel">
+        <button type="button" data-language="en"><span>English</span><span class="language-check"></span></button>
+        <button type="button" data-language="zh"><span>简体中文</span><span class="language-check"></span></button>
+      </div>
+    </details>
     <div class="page-progress" aria-hidden="true"><span id="page-progress"></span></div>
   </header>
 
@@ -327,6 +334,11 @@
     </section>
   </main>
 
+  <script src="../../assets/js/readyology-translations.js"></script>
+  <script src="../../assets/js/readyology-manual-translations.js"></script>
+  <script src="../../assets/js/projects-data.js"></script>
+  <script src="../../assets/js/i18n.js"></script>
   <script src="script.js"></script>
+  <script>portfolioI18n.initStandalone();</script>
 </body>
 </html>

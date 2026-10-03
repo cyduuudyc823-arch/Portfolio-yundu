@@ -1,5 +1,6 @@
 (() => {
   const { createApp, ref, computed, onMounted, nextTick } = Vue;
+  const i18n = window.portfolioI18n;
 
   const cursorHover = () => document.body.classList.add('hovering');
   const cursorLeave = () => document.body.classList.remove('hovering');
@@ -17,7 +18,14 @@
 
   window.mountPortfolioHome = () => createApp({
     setup() {
-      const profile = ref(window.portfolioData);
+      const language = ref(i18n.getLanguage());
+      const profile = computed(() => i18n.getPortfolioData(language.value));
+      const t = (key) => i18n.t(language.value, key);
+      const setLanguage = (nextLanguage) => {
+        language.value = nextLanguage;
+        i18n.saveLanguage(nextLanguage);
+        nextTick(() => i18n.translateStatic(nextLanguage));
+      };
       const cursorDot = ref(null);
       const cursorOutline = ref(null);
       const focusedProject = ref(null);
@@ -67,6 +75,7 @@
 
       onMounted(() => {
         enableCursor(cursorDot, cursorOutline);
+        nextTick(() => i18n.translateStatic(language.value));
         window.addEventListener('pagehide', saveHomeState);
 
         if (savedState) {
@@ -81,7 +90,7 @@
       });
 
       return {
-        profile, cursorDot, cursorOutline, focusedProject, cursorHover, cursorLeave,
+        profile, language, t, setLanguage, cursorDot, cursorOutline, focusedProject, cursorHover, cursorLeave,
         serviceProjects, visualProjects, growthItems, serviceOpen, visualOpen, growthOpen, noAnim,
         openProject, scrollToTop, handleNavClick
       };
@@ -90,7 +99,14 @@
 
   window.mountPortfolioProject = (projectId) => createApp({
     setup() {
-      const profile = ref(window.portfolioData);
+      const language = ref(i18n.getLanguage());
+      const profile = computed(() => i18n.getPortfolioData(language.value));
+      const t = (key) => i18n.t(language.value, key);
+      const setLanguage = (nextLanguage) => {
+        language.value = nextLanguage;
+        i18n.saveLanguage(nextLanguage);
+        nextTick(() => i18n.translateStatic(nextLanguage));
+      };
       const cursorDot = ref(null);
       const cursorOutline = ref(null);
       const currentProject = computed(() => profile.value.projects.find((project) => project.id === projectId));
@@ -102,9 +118,12 @@
       onMounted(() => {
         enableCursor(cursorDot, cursorOutline);
         if (projectId === 'doggo-go') document.body.style.overflow = 'hidden';
-        nextTick(() => window.initProjectInteractions(projectId));
+        nextTick(() => {
+          i18n.translateStatic(language.value);
+          window.initProjectInteractions(projectId);
+        });
       });
-      return { profile, cursorDot, cursorOutline, currentProject, cursorHover, cursorLeave, setView, scrollToTop, handleNavClick };
+      return { profile, language, t, setLanguage, cursorDot, cursorOutline, currentProject, cursorHover, cursorLeave, setView, scrollToTop, handleNavClick };
     }
   }).mount('#app');
 })();
